@@ -4,5 +4,8 @@
     <string name="app_name">MathDown</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_editor">Editor</string>
+    <string name="tab_editor">Editor</string>
+    <string name="tab_preview">Preview</string>
 
 </resources>

@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<script type="text/x-mathjax-config">
+			MathJax.Hub.Config({  
+				showMathMenu: false,
+				jax: ['input/TeX','output/HTML-CSS'],
+				extensions: ['tex2jax.js'],
+				tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+				TeX: { extensions: ['AMSmath.js','AMSsymbols.js',
+					'noErrors.js','noUndefined.js'] },
+			});
+		</script>
+		<script type="text/javascript" src="file:///android_asset/MathJax/MathJax.js">
+		</script>
+	</head>
+	<body>
+		{{ CONTENT }}	
+	</body>
+</html>
