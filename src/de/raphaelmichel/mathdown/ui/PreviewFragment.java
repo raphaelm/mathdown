@@ -10,10 +10,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.ConsoleMessage;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -42,7 +46,7 @@ public class PreviewFragment extends Fragment {
 						.getDefaultSharedPreferences(getActivity());
 				final WebView wvPreview = (WebView) getView().findViewById(
 						R.id.wvPreview);
-				String content = sp.getString("DEMO_TEXT", "");
+				String content = sp.getString("SAMPLE_TEXT", "");
 				String html = "";
 				try {
 					html = new Markdown4jProcessor().process(content);
@@ -53,9 +57,32 @@ public class PreviewFragment extends Fragment {
 					is.read(data);
 					String template = new String(data);
 					html = template.replace("{{ CONTENT }}", html);
-					wvPreview.loadDataWithBaseURL("file:///android_asset/",
+					wvPreview.loadDataWithBaseURL("http://preview.mathdown/",
 							html, "text/html", "UTF-8", null);
 					wvPreview.setWebViewClient(new WebViewClient() {
+						@Override
+						public WebResourceResponse shouldInterceptRequest(
+								WebView view, String url) {
+							if (url.startsWith("http://preview.mathdown")) {
+								try {
+									Log.e("Web", url);
+									return new WebResourceResponse(
+											url.endsWith("js") ? "text/javascript"
+													: "text/css",
+											"utf-8",
+											getActivity()
+													.getAssets()
+													.open(url
+															.substring("http://preview.mathdown/"
+																	.length())));
+								} catch (IOException e) {
+									Log.e(getClass().getSimpleName(),
+											e.getMessage(), e);
+								}
+							}
+							return null;
+						}
+
 						@Override
 						public void onPageFinished(WebView view, String url) {
 							super.onPageFinished(view, url);

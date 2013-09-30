@@ -22,9 +22,18 @@ public class EditorFragment extends Fragment {
 			Bundle savedInstanceState) {
 		SharedPreferences sp = PreferenceManager
 				.getDefaultSharedPreferences(getActivity());
-		String content = sp.getString("DEMO_TEXT", "");
-		if ("".equals(content)) {
-			content = "Hello! I can do Maths! $\\sqrt{4} = 2$.";
+		String content = sp.getString("SAMPLE_TEXT", "");
+		if (!"a".equals(content)) {
+			content = "# Welcome to MathDown\n"
+					+ "Hello! Look at me! I can do **math**! $\\sqrt{4} = 2$!\n\n"
+					+ "Of course I also do the boring stuff:\n"
+					+ "* Lists\n"
+					+ "* *Italic*, **Bold** or _underlined_ text\n\n"
+					+ "\\begin{aligned}"
+					+ "\\nabla \\times \\vec{\\mathbf{B}} -\\, \\frac1c\\, \\frac{\\partial\\vec{\\mathbf{E}}}{\\partial t} & = \\frac{4\\pi}{c}\\vec{\\mathbf{j}} \\\\\\\\ \n"
+					+ "\\nabla \\cdot \\vec{\\mathbf{E}} & = 4 \\pi \\rho \\\\\\\\ \n"
+					+ "\\nabla \\times \\vec{\\mathbf{E}}\\, +\\, \\frac1c\\, \\frac{\\partial\\vec{\\mathbf{B}}}{\\partial t} & = \\vec{\\mathbf{0}} \\\\\\\\ \n"
+					+ "\\nabla \\cdot \\vec{\\mathbf{B}} & = 0 \\end{aligned}";
 			sp.edit().putString("DEMO_TEXT", content).commit();
 		}
 		View rootView = inflater.inflate(R.layout.fragment_editor, container,
@@ -39,7 +48,7 @@ public class EditorFragment extends Fragment {
 						.getDefaultSharedPreferences(getActivity());
 				sp.edit()
 						.putString(
-								"DEMO_TEXT",
+								"SAMPLE_TEXT",
 								((EditText) getView().findViewById(
 										R.id.etEditor)).getText().toString())
 						.commit();
